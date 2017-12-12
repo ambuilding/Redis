@@ -16,3 +16,7 @@
 
 ### Related Repo
 - [A basic chat App](https://github.com/ambuilding/Enjoy/tree/master/chat)
+
+
+- A visitor counter / Followers / Number of video downloads / Article views
+- Key name-spacing 'users.1.followers' / 'videos.2.downloads'

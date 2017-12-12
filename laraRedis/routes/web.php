@@ -4,11 +4,13 @@ use App\Events\UserSignedUp;
 use Illuminate\Support\Facades\Redis;
 
 Route::get('/', function () {
+	$visits = Redis::incr('visits');
 	Redis::set('name', 'Dniya');
 
 	//return Redis::get('name');
     //return view('welcome');
-    return Redis::hget('preferences', 'length');
+    //return Redis::hget('preferences', 'length');
+    return $visits;
 });
 
 Route::get('/cache', function () {
@@ -30,4 +32,11 @@ Route::get('/event', function () {
 	event(new UserSignedUp(Request::query('name')));
 
 	return view('event');
+});
+
+Route::get('videos/{id}/download', function ($id) {
+	Redis::incr("videos.{$id}.downloads");
+});
+Route::get('videos/{id}', function ($id) {
+	$downloads = Redis::get("videos.{id}.downloads");
 });

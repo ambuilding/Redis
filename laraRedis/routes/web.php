@@ -15,3 +15,16 @@ Route::get('/cache', function () {
 
 	return Cache::get('foo');
 });
+
+Route::get('/event', function () {
+	$data = [
+		'event' => 'UserSignedUp',
+		'data' => [
+			'username' => 'Dniya'
+		]
+	];
+
+	Redis::publish('test-channel', json_encode($data));
+
+	return view('event');
+});

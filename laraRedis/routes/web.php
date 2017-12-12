@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\UserSignedUp;
 use Illuminate\Support\Facades\Redis;
 
 Route::get('/', function () {
@@ -17,14 +18,16 @@ Route::get('/cache', function () {
 });
 
 Route::get('/event', function () {
-	$data = [
-		'event' => 'UserSignedUp',
-		'data' => [
-			'username' => 'Dniya'
-		]
-	];
+	// $data = [
+	// 	'event' => 'UserSignedUp',
+	// 	'data' => [
+	// 		'username' => 'Dniya'
+	// 	]
+	// ];
 
-	Redis::publish('test-channel', json_encode($data));
+	//Redis::publish('test-channel', json_encode($data));
+	//event(new UserSignedUp('Dniya'));
+	event(new UserSignedUp(Request::query('name')));
 
 	return view('event');
 });

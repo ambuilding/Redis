@@ -20,3 +20,5 @@
 
 - A visitor counter / Followers / Number of video downloads / Article views
 - Key name-spacing 'users.1.followers' / 'videos.2.downloads'
+- Sorted sets / Sort the top scoring basketball teams / a forum leaderboard / the most popular video
+- When It comes to Redis, even two lines of code can accomplish so much.

@@ -40,3 +40,20 @@ Route::get('videos/{id}/download', function ($id) {
 Route::get('videos/{id}', function ($id) {
 	$downloads = Redis::get("videos.{id}.downloads");
 });
+
+Route::get('articles/trending', function () {
+	$trending = Redis::zrevrange('trending_articles', 0, 2);
+
+//App\Article::whereIn('id', $trending)
+	$trending = App\Article::hydrate(array_map('json_decode', $trending));
+
+	return $trending;
+});
+Route::get('articles/article', function (App\Article $article) {
+	//Redis::zincreby('trending_articles', 1, $article->id);
+	Redis::zincreby('trending_articles', 1, $article); // $article->toJson()
+
+	Redis::zremrangebyrank('trending_articles', 0, -4); // except top 3
+
+	return $article;
+});

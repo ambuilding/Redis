@@ -13,3 +13,6 @@
 - npm
 
 	$ npm install socket.io ioredis --save
+
+### Related Repo
+- [A basic chat App](https://github.com/ambuilding/Enjoy/tree/master/chat)

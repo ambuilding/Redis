@@ -57,3 +57,26 @@ Route::get('articles/article', function (App\Article $article) {
 
 	return $article;
 });
+
+Route::get('/hash', function () {
+	// $user1Stats = [
+	// 	'favorites' => $user->favorites()->count(),
+	// 	'watchLaters' => $user->watchLaters()->count(),
+	// 	'completions' => $user->completions()->count()
+	// ];
+	// Redis::hmset('user.1.stats', $user1Stats);
+
+	return Redis::hgetall('user.1.stats');
+});
+
+Route::get('favorite-video', function () {
+	// Auth::id();
+	Redis::hincrby('user.1.stats', 'favorites', 1);
+
+	return redirect('/hash');
+});
+
+Route::get('users/{id}/states', function ($id) {
+	return Redis::hgetall("user.{$id}.stats");
+});
+

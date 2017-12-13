@@ -43,11 +43,38 @@ Route::get('videos/{id}', function ($id) {
 	$downloads = Redis::get("videos.{id}.downloads");
 });
 
-Route::get('articles', function () {
-	return Cache::remember('articles.all', 60 * 60, function () {
-		dd('here');
+class CacheableArticles {
+	protected $articles;
+
+	function __construct($articles)
+	{
+		$this->articles = $articles;
+	}
+
+	public function all()
+	{
+		return Cache::remember('articles.all', 60 * 60, function (){
+			return $this->articles->all();
+		});
+	}
+}
+
+class Articles {
+	public function all()
+	{
 		return Article::all();
-	});
+	}
+}
+
+// App::bind('Articles', function () {
+// 	return new CacheableArticles(new Articles);
+// });
+
+Route::get('articles', function () {
+	//dd(App::make('Articles'));
+	//dd(resolve('Articles'));
+	$articles = new CacheableArticles(new Articles);
+	return $articles->all();
 });
 
 Route::get('articles/trending', function () {

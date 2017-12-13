@@ -29,3 +29,8 @@
 - Caching with Redis
   - Caching is an incredible use-case for Redis. Caching database queries, API calls, or even HTML fragments.
   - Building up a custom remember function, before switching over to Laravel's Cache component.
+
+- How to organize PHP to best take advantage of caching
+  - Structure the Caching layer
+  - Dry up the code
+  - Turn the caching on and off

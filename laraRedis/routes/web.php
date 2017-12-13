@@ -85,14 +85,17 @@ Route::get('articles/trending', function () {
 
 	return $trending;
 });
-Route::get('articles/article', function (App\Article $article) {
-	//Redis::zincreby('trending_articles', 1, $article->id);
-	Redis::zincreby('trending_articles', 1, $article); // $article->toJson()
 
-	Redis::zremrangebyrank('trending_articles', 0, -4); // except top 3
+Route::get('articles/inProgress', 'ArticleController@index');
+Route::get('articles/{article}', 'ArticleController@show');
+// Route::get('articles/article', function (App\Article $article) {
+// 	//Redis::zincreby('trending_articles', 1, $article->id);
+// 	Redis::zincreby('trending_articles', 1, $article); // $article->toJson()
 
-	return $article;
-});
+// 	Redis::zremrangebyrank('trending_articles', 0, -4); // remove except top 3
+
+// 	return $article;
+// });
 
 Route::get('/hash', function () {
 	// $user1Stats = [

@@ -34,3 +34,5 @@
   - Structure the Caching layer
   - Dry up the code
   - Turn the caching on and off
+
+- Fetch in progress articles: A traditional MySQL pivot table / Redis

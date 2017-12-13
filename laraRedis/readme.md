@@ -26,3 +26,6 @@
 - Hashes / Laravel's cache / Redis
 - [Redis commands](https://redis.io/commands#hash)
 
+- Caching with Redis
+  - Caching is an incredible use-case for Redis. Caching database queries, API calls, or even HTML fragments.
+  - Building up a custom remember function, before switching over to Laravel's Cache component.

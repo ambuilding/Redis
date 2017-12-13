@@ -1,5 +1,6 @@
 <?php
 
+use App\Article;
 use App\Events\UserSignedUp;
 use Illuminate\Support\Facades\Redis;
 
@@ -39,6 +40,17 @@ Route::get('videos/{id}/download', function ($id) {
 });
 Route::get('videos/{id}', function ($id) {
 	$downloads = Redis::get("videos.{id}.downloads");
+});
+
+Route::get('articles', function () {
+	if (Redis::exists('articles.all')) {
+		return json_decode(Redis::get('articles.all'));
+	}
+
+	$articles = Article::all();
+	Redis::set('articles.all', $articles);
+
+	return $articles;
 });
 
 Route::get('articles/trending', function () {

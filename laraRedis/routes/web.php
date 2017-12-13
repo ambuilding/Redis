@@ -3,6 +3,7 @@
 use App\Article;
 use App\Events\UserSignedUp;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 Route::get('/', function () {
 	$visits = Redis::incr('visits');
@@ -42,19 +43,9 @@ Route::get('videos/{id}', function ($id) {
 	$downloads = Redis::get("videos.{id}.downloads");
 });
 
-function remember($key, $minutes, $callback)
-{
-	if ($value = Redis::get($key)) {
-		return json_decode($value);
-	}
-
-	Redis::setex($key, $minutes, $value = $callback());
-
-	return $value;
-}
-
 Route::get('articles', function () {
-	return remember('articles.all', 60 * 60, function () {
+	return Cache::remember('articles.all', 60 * 60, function () {
+		dd('here');
 		return Article::all();
 	});
 });

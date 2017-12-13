@@ -42,15 +42,21 @@ Route::get('videos/{id}', function ($id) {
 	$downloads = Redis::get("videos.{id}.downloads");
 });
 
-Route::get('articles', function () {
-	if (Redis::exists('articles.all')) {
-		return json_decode(Redis::get('articles.all'));
+function remember($key, $minutes, $callback)
+{
+	if ($value = Redis::get($key)) {
+		return json_decode($value);
 	}
 
-	$articles = Article::all();
-	Redis::set('articles.all', $articles);
+	Redis::setex($key, $minutes, $value = $callback());
 
-	return $articles;
+	return $value;
+}
+
+Route::get('articles', function () {
+	return remember('articles.all', 60 * 60, function () {
+		return Article::all();
+	});
 });
 
 Route::get('articles/trending', function () {
